@@ -52,12 +52,34 @@ def circle(start, end):
 
 def rectangle(start, end):
     """Draw rectangle from start to end."""
-    pass  # TODO
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
+
+    # Dibuja el rectángulo considerando la longitud y el ancho
+    for count in range(2):
+        forward(end.x - start.x)  # Longitud
+        left(90)
+        forward(end.y - start.y)  # Ancho
+        left(90)
+
+    end_fill()
 
 
 def triangle(start, end):
     """Draw triangle from start to end."""
-    pass  # TODO
+    up()
+    goto(start.x, start.y)
+    down()
+    begin_fill()
+
+    # Dibuja el triángulo equilátero
+    for count in range(3):
+        forward(end.x - start.x)  # Longitud del lado
+        left(120)  # Ángulo de 120 grados para un triángulo equilátero
+
+    end_fill()
 
 
 def tap(x, y):
