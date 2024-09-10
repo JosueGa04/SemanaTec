@@ -1,5 +1,4 @@
 from turtle import *
-
 from freegames import vector
 
 
@@ -25,18 +24,14 @@ def square(start, end):
     end_fill()
 
 
-def circle(start, end):
+def draw_circle(start, end):
     """Draw circle from start to end."""
+    radius = abs(end - start) / 2
     up()
-    goto(start.x, start.y)
+    goto(start.x, start.y - radius)  # Move to the bottom of the circle
     down()
     begin_fill()
-
-    # Calculate the radius based on the distance between start and end points
-    radius = ((end.x - start.x)**2 + (end.y - start.y)**2)**0.5
-    setheading(0)  # Reset direction to ensure proper drawing
-    circle(radius)
-
+    circle(radius)  # Use the built-in circle function
     end_fill()
 
 def rectangle(start, end):
@@ -103,7 +98,7 @@ onkey(lambda: color('yellow'), 'Y')  # Added new color (yellow)
 
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
-onkey(lambda: store('shape', circle), 'c')
+onkey(lambda: store('shape', draw_circle), 'c')
 onkey(lambda: store('shape', rectangle), 'r')
 onkey(lambda: store('shape', triangle), 't')
 done()
