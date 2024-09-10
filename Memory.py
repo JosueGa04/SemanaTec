@@ -59,16 +59,23 @@ def draw():
 
     mark = state['mark']
 
+    # Dibujar los números o imágenes en el cuadro marcado
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
+        goto(x + 10, y + 5)  # Ajustar las coordenadas para centrar
         color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))
 
     update()
     ontimer(draw, 100)
 
+
+    # Detectar si todos los cuadros se han destapado
+    if all(not hidden for hidden in hide):
+        up()
+        goto(0, 0)
+        write("¡Juego Terminado!", align='center', font=('Arial', 30, 'bold'))
 
 shuffle(tiles)
 setup(420, 420, 370, 0)
