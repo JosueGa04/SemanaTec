@@ -120,7 +120,17 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
-        if valid(point + course):
+        # Hacer a los fantasmas más listos: Mover hacia Pac-Man si están cerca
+        if abs(point - pacman) < 100:
+            if pacman.x > point.x:
+                course.x = 5
+            else:
+                course.x = -5
+            if pacman.y > point.y:
+                course.y = 5
+            else:
+                course.y = -5
+        elif valid(point + course):
             point.move(course)
         else:
             options = [
@@ -143,8 +153,8 @@ def move():
         if abs(pacman - point) < 20:
             return
 
-    ontimer(move, 100)
-
+    # Hacer que los fantasmas vayan más rápido: reducir el tiempo del temporizador
+    ontimer(move, 50)
 
 def change(x, y):
     """Change pacman aim if valid."""
