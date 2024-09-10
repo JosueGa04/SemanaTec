@@ -48,6 +48,9 @@ def tap(x, y):
         hide[mark] = False
         state['mark'] = None
 
+def all_revealed():
+    """Return True if all tiles are revealed."""
+    return all(not hidden for hidden in hide)
 
 def draw():
     """Draw image and tiles."""
@@ -55,38 +58,41 @@ def draw():
     goto(0, 0)
     shape(car)
     stamp()
-
+    
     for count in range(64):
         if hide[count]:
             x, y = xy(count)
-            square(x, y)
-
-    mark = state['mark']
+            square(x, y)   
     
+    mark = state['mark']  
+        
     #Dibujar los números en el cuadro marcado
     images = ['🐶', '🐱', '🦁', '🐸', '🐰', '🐼', '🐨', '🐻', '🦊', '🐯', '🐮', '🐷', '🐵', '🐔', '🐧', '🐦', '🐙', '🦄', '🐢',
-              '🦕', '🐍', '🦉', '🦅', '🐞', '🐝', '🦋', '🐠', '🦑', '🐬', '🐋']
+              '🦕', '🐍', '🦉', '🦅', '🐞', '🐝', '🦋', '🐠', '🦑', '🐬', '🐋', '🦓', '🦒']
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
         goto(x + 25, y + 5)
         color('black')
-        write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))   
-   
+        write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))
+
     #Mostrar numero de taps
     up()
     goto(0, -250)
     write(f"Taps: {taps}", align='center', font=('Arial', 20, 'normal'))
 
-    update()
-    ontimer(draw, 100)
-
-
+    if all_revealed():
+        goto(0, 0)
+        write("¡Ganaste!", align='center', font=('Arial', 40, 'bold'))
+    else:
+        update()
+        ontimer(draw, 100)    
+    
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(420, 420, 370, 0) 
 addshape(car)
 hideturtle()
 tracer(False)
 onscreenclick(tap)
-draw()
+draw()   
 done()
