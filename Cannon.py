@@ -45,7 +45,8 @@ def move():
         targets.append(target)
 
     for target in targets:
-        target.x -= 0.5
+       #Velocidad incrementada 
+        target.x -= 2 #Aumentamos la velocidad de los balones
 
     if inside(ball):
         speed.y -= 0.35
@@ -61,7 +62,10 @@ def move():
     draw()
 
     for target in targets:
+	#Reposiciona los balones cuando salen de la pantalla
         if not inside(target):
+	    target.x = 200 #Reposiciona el balón en el borde derecho
+	    target.y = randrange(-150, 150)# Cambiamos su posición vertical
             return
 
     ontimer(move, 50)
