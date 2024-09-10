@@ -67,14 +67,17 @@ def draw():
     goto(0, -210)
     write(f"Taps: {taps}", align='center', font=('Arial', 20, 'normal'))
 
+# Nuevos valores para reemplazar los dígitos (pueden ser imágenes o iconos)
+images = ['🐶', '🐱', '🦁', '🐸', '🐰', '🐼', '🐨', '🐻', '🦊', '🐯', '🐮', '🐷', '🐵', '🐔', '🐧', '🐦']
+
     # Dibujar los números o imágenes en el cuadro marcado
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
         goto(x + 10, y + 5)  # Ajustar las coordenadas para centrar
         color('black')
-        write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))
-
+	write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))
+   
     update()
     ontimer(draw, 100)
 
