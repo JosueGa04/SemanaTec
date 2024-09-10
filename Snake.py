@@ -57,6 +57,17 @@ def move():
     update()
     ontimer(move, 100)
 
+def move_food():
+    """Mueve la comida de forma aleatoria un paso sin salirse de la ventana."""
+    directions = [vector(10, 0), vector(-10, 0), vector(0, 10), vector(0, -10)]
+    move_direction = choice(directions)
+    new_position = food + move_direction
+
+    if inside(new_position):
+        food.move(move_direction)
+
+    ontimer(move_food, 500)  # Vuelve a mover la comida cada 500ms
+
 
 setup(420, 420, 370, 0)
 hideturtle()
