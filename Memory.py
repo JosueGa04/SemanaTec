@@ -32,10 +32,13 @@ def xy(count):
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
+taps = 0  # Contador de taps
+
 def tap(x, y):
-    """Update mark and hidden tiles based on tap."""
+    global taps
     spot = index(x, y)
     mark = state['mark']
+    taps += 1  # Aumenta el contador de taps
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
@@ -59,6 +62,11 @@ def draw():
 
     mark = state['mark']
 
+    # Mostrar el número de taps
+    up()
+    goto(0, -210)
+    write(f"Taps: {taps}", align='center', font=('Arial', 20, 'normal'))
+
     # Dibujar los números o imágenes en el cuadro marcado
     if mark is not None and hide[mark]:
         x, y = xy(mark)
@@ -70,12 +78,12 @@ def draw():
     update()
     ontimer(draw, 100)
 
-
     # Detectar si todos los cuadros se han destapado
     if all(not hidden for hidden in hide):
         up()
         goto(0, 0)
         write("¡Juego Terminado!", align='center', font=('Arial', 30, 'bold'))
+
 
 shuffle(tiles)
 setup(420, 420, 370, 0)
