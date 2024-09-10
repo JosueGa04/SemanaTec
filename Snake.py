@@ -1,5 +1,7 @@
 from random import randrange, choice
+
 from turtle import *
+
 from freegames import square, vector
 
 # Posibles colores excluyendo el rojo
