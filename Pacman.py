@@ -14,6 +14,7 @@ ghosts = [
     [vector(100, 160), vector(0, -5)],
     [vector(100, -160), vector(-5, 0)],
 ]
+
 # fmt: off
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,7 +40,6 @@ tiles = [
 ]
 # fmt: on
 
-
 def square(x, y):
     """Draw square using path at (x, y)."""
     path.up()
@@ -60,7 +60,6 @@ def offset(point):
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
     return index
-
 
 def valid(point):
     """Return True if point is valid in tiles."""
@@ -120,41 +119,46 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
-        # Move ghost towards Pac-Man
-        dx = pacman.x - point.x
-        dy = pacman.y - point.y
-        if abs(dx) > abs(dy):
-            course.x = 10 if dx > 0 else -10
-            course.y = 0
-        else:
-            course.x = 0
-            course.y = 10 if dy > 0 else -10
-
         if valid(point + course):
             point.move(course)
         else:
+            # Lista de posibles movimientos
             options = [
-                vector(10, 0),
-                vector(-10, 0),
-                vector(0, 10),
-                vector(0, -10),
+                vector(5, 0),   # Derecha
+                vector(-5, 0),  # Izquierda
+                vector(0, 5),   # Arriba
+                vector(0, -5),  # Abajo
             ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            
+            # Elegir el movimiento que acerque más al fantasma a Pac-Man
+            min_dist = float('inf')
+            best_move = course
+            
+            for option in options:
+                new_point = point + option
+                if valid(new_point):
+                    dist = abs(new_point - pacman)
+                    if dist < min_dist:
+                        min_dist = dist
+                        best_move = option
+            
+            # Actualizar la dirección del fantasma a la mejor opción
+            course.x = best_move.x
+            course.y = best_move.y
+            point.move(course)
 
         up()
-        goto(point.x + 15, point.y + 15)
+        goto(point.x + 10, point.y + 10)
         dot(20, 'red')
 
     update()
 
+    # Comprobar si Pac-Man ha sido atrapado
     for point, course in ghosts:
         if abs(pacman - point) < 20:
             return
 
-    ontimer(move, 100)
-
+    ontimer(move, 70)# Ajustando la velocidad de los fantasmas
 
 
 
@@ -179,4 +183,3 @@ onkey(lambda: change(0, -5), 'Down')
 world()
 move()
 done()
-
