@@ -1,3 +1,14 @@
+"""Pacman, classic arcade game.
+
+Exercises
+
+1. Change the board.
+2. Change the number of ghosts.
+3. Change where pacman starts.
+4. Make the ghosts faster/slower.
+5. Make the ghosts smarter.
+"""
+
 from random import choice
 from turtle import *
 
@@ -120,28 +131,33 @@ def move():
     dot(20, 'yellow')
 
     for point, course in ghosts:
-        # Hacer a los fantasmas más listos: Mover hacia Pac-Man si están cerca
-        if abs(point - pacman) < 100:
-            if pacman.x > point.x:
-                course.x = 5
-            else:
-                course.x = -5
-            if pacman.y > point.y:
-                course.y = 5
-            else:
-                course.y = -5
-        elif valid(point + course):
+        if valid(point + course):
             point.move(course)
         else:
+            # Instead of random movement, make the ghost follow Pacman intelligently
             options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
+                vector(5, 0),   # Right
+                vector(-5, 0),  # Left
+                vector(0, 5),   # Up
+                vector(0, -5),  # Down
             ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+
+            # Calculate the distances to Pacman from each possible option
+            best_move = None
+            min_distance = float('inf')
+
+            for option in options:
+                next_point = point + option
+                if valid(next_point):
+                    distance = abs(pacman.x - next_point.x) + abs(pacman.y - next_point.y)
+                    if distance < min_distance:
+                        min_distance = distance
+                        best_move = option
+
+            # Set the ghost's course to the best option found
+            if best_move:
+                course.x = best_move.x
+                course.y = best_move.y
 
         up()
         goto(point.x + 10, point.y + 10)
@@ -153,8 +169,8 @@ def move():
         if abs(pacman - point) < 20:
             return
 
-    # Hacer que los fantasmas vayan más rápido: reducir el tiempo del temporizador
-    ontimer(move, 50)
+    ontimer(move, 100)
+
 
 def change(x, y):
     """Change pacman aim if valid."""
