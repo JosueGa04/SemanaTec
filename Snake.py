@@ -2,7 +2,7 @@ from random import randrange, choice
 from turtle import *
 from freegames import square, vector
 
-# Inicialización de la comida, serpiente y dirección
+# Inicialización de las comida, serpiente y dirección
 food = vector(0, 0)  # Posición inicial de la comida
 snake = [vector(10, 0)]  # Posición inicial de la serpiente
 aim = vector(0, -10)  # Dirección inicial de movimiento de la serpiente
