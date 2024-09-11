@@ -105,7 +105,7 @@ def draw():
         ontimer(draw, 100)  # Repite la función draw cada 100 milisegundos   
     
 # Baraja los cuadros antes de comenzar el juego
-shuffle(tiles)
+shuffle(tiles) #Funcion que acomoda los cuadros
 setup(420, 420, 370, 0) 
 addshape(car)
 hideturtle()
