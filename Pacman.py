@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, random
 from turtle import *
 
 from freegames import floor, vector
@@ -39,6 +39,7 @@ tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
 # fmt: on
+
 
 def square(x, y):
     """Draw square using path at (x, y)."""
