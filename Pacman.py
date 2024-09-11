@@ -25,7 +25,11 @@ ghosts = [
     [vector(100, -160), vector(-5, 0)],
 ]
 
+<<<<<<< HEAD
 # Definición de varios tableros predefinidos para el juego, donde 0 indica una pared y 1 un camino.
+=======
+# Pre-defined board layouts (only using walls (0) and paths (1))
+>>>>>>> main
 boards = [
     [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -95,6 +99,8 @@ boards = [
 ]
 ]
 
+# Choose a random board
+tiles = choice(boards)
 
 # Selecciona aleatoriamente uno de los tableros definidos anteriormente.
 tiles = choice(boards)
@@ -224,7 +230,10 @@ def change(x, y):
         aim.x = x
         aim.y = y
 
+<<<<<<< HEAD
 # Configura las teclas de dirección para controlar a Pac-Man.
+=======
+>>>>>>> main
 setup(420, 420, 370, 0)
 hideturtle()
 tracer(False)
