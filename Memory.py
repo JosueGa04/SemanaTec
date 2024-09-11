@@ -45,7 +45,7 @@ taps = 0 # Contador de taps
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
     global taps # Permite modificar la variable global 'taps'
-    spot = index(x, y)
+    spot = index(x, y) # Convierte las coordenadas del clic en un índice de cuadro
     mark = state['mark']
     taps += 1 #Aumenta el contador de taps
 
@@ -53,9 +53,9 @@ def tap(x, y):
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
     else:
-        hide[spot] = False
-        hide[mark] = False
-        state['mark'] = None
+        hide[spot] = False  # Revela el cuadro actual
+        hide[mark] = False  # Revela el cuadro anterior
+        state['mark'] = None  # Resetea la marca
 
 def all_revealed():
     """Return True if all tiles are revealed."""
@@ -71,9 +71,9 @@ def draw():
 
     # Itera sobre los 64 cuadros (8x8) de la cuadrícula
     for count in range(64):
-        if hide[count]:
-            x, y = xy(count)
-            square(x, y)   
+        if hide[count]:  # Si el cuadro está oculto
+            x, y = xy(count)  # Obtiene las coordenadas del cuadro
+            square(x, y)  # Dibuja un cuadro en esas coordenadas  
     
     mark = state['mark']  
         
@@ -101,8 +101,8 @@ def draw():
 	# Muestra el mensaje "¡Ganaste!"
         write("¡Ganaste!", align='center', font=('Arial', 40, 'bold'))
     else:
-        update()
-        ontimer(draw, 100)    
+        update()  # Actualiza la pantalla
+        ontimer(draw, 100)  # Repite la función draw cada 100 milisegundos   
     
 # Baraja los cuadros antes de comenzar el juego
 shuffle(tiles)
