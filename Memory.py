@@ -3,9 +3,13 @@ from turtle import *
 
 from freegames import path
 
+# Carga la imagen del coche desde los recursos de freegames
 car = path('car.gif')
+# Crea una lista de números del 0 al 31, duplicados para que haya pares (64 elementos en total)
 tiles = list(range(32)) * 2
+# Estado del juego, guarda la marca seleccionada actualmente (None al inicio)
 state = {'mark': None}
+# Lista booleana que indica si cada cuadro está oculto (64 elementos, todos inicialmente True)
 hide = [True] * 64
 
 
@@ -24,23 +28,28 @@ def square(x, y):
 
 def index(x, y):
     """Convert (x, y) coordinates to tiles index."""
+    # Calcula el índice basado en las coordenadas (x, y). La cuadrícula tiene 8 cuadros por fila,
+    # así que se usa esta fórmula para convertir las coordenadas en un índice de 0 a 63.
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
 
 def xy(count):
     """Convert tiles count to (x, y) coordinates."""
+    # Convierte un número de cuadro (de 0 a 63) en coordenadas (x, y)
+    # Modifica el valor para que encaje en la cuadrícula de 8x8 (50 píxeles por cuadro)
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
-taps = 0 #Contador de taps
+taps = 0 # Contador de taps
 
 def tap(x, y):
     """Update mark and hidden tiles based on tap."""
-    global taps
+    global taps # Permite modificar la variable global 'taps'
     spot = index(x, y)
     mark = state['mark']
     taps += 1 #Aumenta el contador de taps
 
+    # Si no hay ninguna marca seleccionada, si se hace clic en el mismo lugar, o si los cuadros no coinciden
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
         state['mark'] = spot
     else:
@@ -50,6 +59,7 @@ def tap(x, y):
 
 def all_revealed():
     """Return True if all tiles are revealed."""
+    # Verifica si todos los cuadros de la lista 'hide' están en False (es decir, todos están revelados)
     return all(not hidden for hidden in hide)
 
 def draw():
@@ -58,7 +68,8 @@ def draw():
     goto(0, 0)
     shape(car)
     stamp()
-    
+
+    # Itera sobre los 64 cuadros (8x8) de la cuadrícula
     for count in range(64):
         if hide[count]:
             x, y = xy(count)
@@ -66,14 +77,17 @@ def draw():
     
     mark = state['mark']  
         
-    #Dibujar los números en el cuadro marcado
+    #Dibujar los emojis en el cuadro marcado
     images = ['🐶', '🐱', '🦁', '🐸', '🐰', '🐼', '🐨', '🐻', '🦊', '🐯', '🐮', '🐷', '🐵', '🐔', '🐧', '🐦', '🐙', '🦄', '🐢',
               '🦕', '🐍', '🦉', '🦅', '🐞', '🐝', '🦋', '🐠', '🦑', '🐬', '🐋', '🦓', '🦒']
+
+    # Si hay un cuadro marcado y aún está oculto
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
         goto(x + 25, y + 5)
         color('black')
+        # Escribe el emoji correspondiente al cuadro marcado en el centro del cuadro
         write(images[tiles[mark] % len(images)], align='center', font=('Arial', 30, 'normal'))
 
     #Mostrar numero de taps
@@ -81,13 +95,16 @@ def draw():
     goto(0, -250)
     write(f"Taps: {taps}", align='center', font=('Arial', 20, 'normal'))
 
+    # Si todos los cuadros están revelados
     if all_revealed():
         goto(0, 0)
+	# Muestra el mensaje "¡Ganaste!"
         write("¡Ganaste!", align='center', font=('Arial', 40, 'bold'))
     else:
         update()
         ontimer(draw, 100)    
     
+# Baraja los cuadros antes de comenzar el juego
 shuffle(tiles)
 setup(420, 420, 370, 0) 
 addshape(car)
