@@ -17,6 +17,7 @@ def square(start, end):
     down()
     begin_fill()
 
+    # Bucle para dibujar los cuatro lados del cuadrado
     for count in range(4):
         forward(end.x - start.x)
         left(90)
@@ -24,14 +25,16 @@ def square(start, end):
     end_fill()
 
 
+
 def draw_circle(start, end):
     """Draw circle from start to end."""
+    # Calcula el radio del círculo basado en la distancia entre los puntos
     radius = abs(end - start) / 2
     up()
     goto(start.x, start.y - radius)  # Move to the bottom of the circle
     down()
     begin_fill()
-    circle(radius)  # Use the built-in circle function
+    circle(radius) # Dibuja el círculo usando el radio calculado
     end_fill()
 
 def rectangle(start, end):
@@ -73,22 +76,25 @@ def tap(x, y):
     if start is None:
         state['start'] = vector(x, y)
     else:
-        shape = state['shape']
+        shape = state['shape']  # Obtiene la figura seleccionada del estado
         end = vector(x, y)
         shape(start, end)
-        state['start'] = None
+        state['start'] = None # Resetea el punto de inicio para el siguiente dibujo
 
 
 def store(key, value):
     """Store value in state at key."""
+    # Asigna el valor a la clave correspondiente en el diccionario de estado
     state[key] = value
 
-
+# Inicializa el estado del programa con el punto de inicio vacío y la figura predeterminada como una línea
 state = {'start': None, 'shape': line}
 setup(420, 420, 370, 0)
 onscreenclick(tap)
 listen()
 onkey(undo, 'u')
+
+# Asigna teclas para cambiar el color de dibujo
 onkey(lambda: color('black'), 'K')
 onkey(lambda: color('white'), 'W')
 onkey(lambda: color('green'), 'G')
@@ -96,6 +102,7 @@ onkey(lambda: color('blue'), 'B')
 onkey(lambda: color('red'), 'R')
 onkey(lambda: color('yellow'), 'Y')  # Added new color (yellow)
 
+# Asigna teclas para cambiar la figura de dibujo
 onkey(lambda: store('shape', line), 'l')
 onkey(lambda: store('shape', square), 's')
 onkey(lambda: store('shape', draw_circle), 'c')
